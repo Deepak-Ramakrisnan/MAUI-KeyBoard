@@ -1,0 +1,84 @@
+﻿@page "/counter"
+
+
+@using System.ComponentModel.DataAnnotations;
+
+
+
+        @if (string.IsNullOrEmpty(Message))
+
+        {
+
+            <EditForm Model="@model" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+
+                <DataAnnotationsValidator />
+
+                <div>
+
+                   
+
+                    <InputText @bind-Value="model.FirstName" @onkeyup="KeyupHandler" @onfocus="focushandler"></InputText>
+
+                    <ValidationMessage For="()=>model.FirstName" />
+
+                </div>
+
+                <div class="submit-btn">
+
+                    <button type="submit">Submit</button>
+
+                </div>
+
+            </EditForm>
+
+        }
+
+        else
+
+        {
+
+          
+
+                @Message
+
+           
+
+        }
+
+   
+
+
+
+@code {
+
+    private string Message = string.Empty;
+        async void OnValidSubmit()
+        {
+            Message = "Form Submitted Successfully!";
+            await Task.Delay(2000);
+            Message = string.Empty;
+            model.FirstName = null;
+            StateHasChanged();
+        }
+        private void OnInvalidSubmit()
+        {
+            Message = string.Empty;
+        }
+        public void KeyupHandler(KeyboardEventArgs args)
+        {
+        }
+
+        public void focushandler()
+        {
+        }
+
+
+        private EmployeeData model = new EmployeeData();
+        public class EmployeeData
+        {
+            [Required(ErrorMessage = "The Employee field is required.")]
+            public string FirstName { get; set; }
+
+        }
+
+    }
